@@ -5,14 +5,14 @@ def wire_to_coords(wire):
     curr = (0, 0)
     coords = []
     totalsteps = 0
-    for d in wire.split(','):
+    for d in wire.split(","):
         x1, y1 = curr
         nsteps = int(d[1:])
         n = {
-            'U': (x1, y1 + nsteps),
-            'R': (x1 + nsteps, y1),
-            'D': (x1, y1 - nsteps),
-            'L': (x1 - nsteps, y1),
+            "U": (x1, y1 + nsteps),
+            "R": (x1 + nsteps, y1),
+            "D": (x1, y1 - nsteps),
+            "L": (x1 - nsteps, y1),
         }[d[0]]
         coords.append((curr, n, totalsteps))
         curr = n
@@ -20,9 +20,9 @@ def wire_to_coords(wire):
     return coords
 
 
-if __name__ == '__main__':
-    with open('day3.txt') as f:
-        wire1, wire2 = f.read().strip().split('\n')
+if __name__ == "__main__":
+    with open("day3.txt") as f:
+        wire1, wire2 = f.read().strip().split("\n")
     coords1 = wire_to_coords(wire1)
     coords2 = wire_to_coords(wire2)
     min_dist = sys.maxsize

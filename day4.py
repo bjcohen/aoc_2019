@@ -1,4 +1,4 @@
-if __name__ == '__main__':
+if __name__ == "__main__":
     lo, hi = 156218, 652527
     count = 0
     for i in range(lo, hi + 1):
