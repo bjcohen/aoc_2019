@@ -9,6 +9,7 @@ def _resolve_val(prog, p, m, rel_base):
     elif m == 1:
         return p
     elif m == 2:
+        _check_addr(prog, rel_base + p)
         return prog[rel_base + p]
     else:
         assert False, f"unhandled mode [{m}]"
