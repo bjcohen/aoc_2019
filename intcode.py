@@ -53,7 +53,7 @@ def _check_addr(prog, p):
         prog.extend(0 for _ in range(p - len(prog) + 1))
 
 
-def run(prog, inputs, label="unlabeled"):
+def run(prog, io, label="unlabeled", sync=False):
     prog = prog.copy()
     i = 0
     outputs = []
@@ -72,12 +72,18 @@ def run(prog, inputs, label="unlabeled"):
         elif op == 3:
             out_p = _parse0ptr(prog, i, rel_base, label)
             _check_addr(prog, out_p)
-            prog[out_p] = next(inputs)
+            if sync:
+                prog[out_p] = yield
+            else:
+                prog[out_p] = next(io)
             assert prog[out_p] is not None, f"prog[p] is none in {label}"
             i += 2
         elif op == 4:
             in_ = _parse0val(prog, i, rel_base, label)
-            yield in_
+            if sync:
+                io.send(in_)
+            else:
+                yield in_
             i += 2
         elif op == 5:
             in1, in2, _ = _parse2(prog, i, rel_base, label)
