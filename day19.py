@@ -70,4 +70,3 @@ if __name__ == "__main__":
     print(max(found))
     x100, y100 = found[100]
     print(10000 * x100 + y100)
-

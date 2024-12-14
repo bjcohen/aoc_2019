@@ -24,7 +24,7 @@ if __name__ == "__main__":
 
     callbacks = [cb(i) for i in range(50)]
     computers = [
-        intcode.run(prog, callback, str(i), sync=True)
+        intcode.run(prog, callback, str(i), sync_out=True, sync_in=False)
         for i, callback in enumerate(callbacks)
     ]
     for callback in callbacks:

@@ -53,7 +53,7 @@ def _check_addr(prog, p):
         prog.extend(0 for _ in range(p - len(prog) + 1))
 
 
-def run(prog, io, label="unlabeled", sync=False):
+def run(prog, io, label="unlabeled", sync_in=True, sync_out=False):
     prog = prog.copy()
     i = 0
     outputs = []
@@ -72,7 +72,7 @@ def run(prog, io, label="unlabeled", sync=False):
         elif op == 3:
             out_p = _parse0ptr(prog, i, rel_base, label)
             _check_addr(prog, out_p)
-            if sync:
+            if not sync_in:
                 prog[out_p] = yield
             else:
                 prog[out_p] = next(io)
@@ -80,8 +80,11 @@ def run(prog, io, label="unlabeled", sync=False):
             i += 2
         elif op == 4:
             in_ = _parse0val(prog, i, rel_base, label)
-            if sync:
-                io.send(in_)
+            if sync_out:
+                try:
+                    io.send(in_)
+                except StopIteration as e:
+                    return
             else:
                 yield in_
             i += 2
